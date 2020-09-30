@@ -1,7 +1,39 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 
+from apps.hello.models import ProfileModel
 from apps.hello.views import IndexView
+
+
+class ProfileModelTests(TestCase):
+    """
+    Test case for Profile model
+    """
+    @classmethod
+    def setUp(cls):
+        # creating profile instance
+        cls.profile = ProfileModel(
+            name='Bohdan', last_name='Yakubovskyi',
+            birthday_date='18.10.2000', bio='Lalala test',
+            email='test@test.com', jabber='test@cc.co',
+            skype='124519222asd', other_contacts='telegram: @grey_five_9'
+        )
+
+    def test_profile_creation(self):
+        """
+        testing creation of profile instance
+        """
+        self.assertEqual('Bohdan', self.profile.name)
+        self.assertEqual('Yakubovskyi', self.profile.last_name)
+        self.assertEqual('18.10.2000', self.profile.birthday_date)
+        self.assertEqual('Lalala test', self.profile.bio)
+        self.assertEqual('test@test.com', self.profile.email)
+        self.assertEqual('test@cc.co', self.profile.jabber)
+        self.assertEqual('124519222asd', self.profile.skype)
+        self.assertEqual('telegram: @grey_five_9', self.profile.other_contacts)
+
+
+# Tests for views____________________________________________________
 
 
 class IndexViewTests(TestCase):
@@ -13,6 +45,12 @@ class IndexViewTests(TestCase):
         making request to test view
         """
         # creating profile instance
+        self.profile = ProfileModel(
+            name='Bohdan', last_name='Yakubovskyi',
+            birthday_date='18.10.2000', bio='Lalala test',
+            email='test@test.com', jabber='test@cc.co',
+            skype='124519222asd',
+        )
         self.response = self.client.get(reverse('hello:index'))
 
     def test_status_code(self):
