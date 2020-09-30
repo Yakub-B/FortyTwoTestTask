@@ -1,0 +1,31 @@
+[
+  {
+    "pk": 1,
+    "model": "hello.ProfileModel",
+    "fields": {
+      "name": "Bohdan",
+      "last_name": "Yakubovskyi",
+      "birthday_date": "2000-10-18",
+      "bio": "I am Student",
+      "email": "qq.0012@ukr.net",
+      "jabber": "yakub@42cc.co",
+      "skype": "Not using",
+      "other_contacts": "telegram: @grey_five_9"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "auth.user",
+    "fields": {
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$180000$XLppULQ6IiJM$v7WyQ5bajJPjzKYlHHVeozjWt3YvSMTvJ8eJORyXs/Y="
+    }
+  }
+]

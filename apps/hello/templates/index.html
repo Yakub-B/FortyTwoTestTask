@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static "css/hello.css" %}">
+    <link rel="stylesheet" href="{% static "hello/css/hello.css" %}">
 {% endblock extra_head %}
 
 {% block content %}
@@ -42,7 +42,7 @@
 
         <div class="col">
             <p>Other contacts:</p>
-            <p>Telegram: {{ profile.telegram }}</p>
+            <p>{{ profile.other_contacts }}</p>
         </div>
 
 

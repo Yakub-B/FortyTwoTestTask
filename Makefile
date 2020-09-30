@@ -38,7 +38,7 @@ createcachetable:
 	@echo Creating cache table
 	$(MANAGE) createcachetable
 
-initproject: migrate createcachetable
+initproject: migrate createcachetable insert_data
 
 shell:
 	@echo Starting shell...
@@ -71,3 +71,6 @@ migrations:
 
 check_noqa:
 	./check_noqa.sh
+
+insert_data:
+	$(MANAGE) loaddata initial_data.json
