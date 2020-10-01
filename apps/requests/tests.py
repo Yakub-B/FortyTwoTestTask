@@ -33,4 +33,3 @@ class RequestsModelTests(TestCase):
         self.assertEqual('utf-8', self.request.encoding)
         self.assertEqual('text/html', self.request.content_type)
         self.assertEqual(self.user_instance, self.request.user)
-
