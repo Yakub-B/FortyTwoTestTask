@@ -1,2 +1,5 @@
+from django.views.generic.base import View
 
-# Create your views here.
+
+class LastTenRequestsView(View):
+    pass

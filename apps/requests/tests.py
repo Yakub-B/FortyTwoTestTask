@@ -1,8 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 
-# models tests
+from django.urls import resolve
+
 from apps.requests.models import RequestModel
+from apps.requests.views import LastTenRequestsView
+
+# models tests
 
 
 class RequestsModelTests(TestCase):
@@ -60,3 +64,43 @@ class RequestLoggerMiddlewareTests(TestCase):
         self.assertEqual('GET', request_instance.method)
         self.assertEqual(None, request_instance.encoding)
         self.assertEqual('', request_instance.content_type)
+
+
+# views tests
+
+
+class LastTenRequestsViewTests(TestCase):
+
+    def setUp(self):
+        self.response = self.client.get('/requests/')
+
+    def test_status_code(self):
+        """
+        testing status code returned by view
+        """
+        self.assertEqual(200, self.response.status_code)
+
+    def test_template_used(self):
+        """
+        testing if the right template is used in view
+        """
+        self.assertTemplateUsed(
+            template_name='requests.html', response=self.response
+        )
+
+    def test_template_contains_info_about_client_get_request(self):
+        """
+        testing if template contains info about request made in setUp method
+        """
+        self.assertContains(self.response, 'http://testserver')
+        self.assertContains(self.response, 'GET')
+
+    def test_last_ten_requests_view_resolves_requests_page(self):
+        """
+        testing if the right view resolves '/requests/' url
+        """
+        view = resolve('/requests/')
+        self.assertEqual(
+            view.func.__name__,
+            LastTenRequestsView.as_view().__name__
+        )
