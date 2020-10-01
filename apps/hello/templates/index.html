@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static "hello/css/hello.css" %}">
+{% endblock extra_head %}
+
+{% block content %}
+<div class="container">
+    <div class="title">
+        <h1 class="title">42 Coffee Cups Test Assignment</h1>
+    </div>
+    <div class="row">
+
+
+        <div class="col-sm">
+            <p>Name:</p>
+            <p>{{ profile.name }}</p>
+            <p>Last name:</p>
+            <p>{{ profile.last_name }}</p>
+            <p>Birthday:</p>
+            <p>{{ profile.birthday_date }}</p>
+        </div>
+
+        <div class="col-sm">
+            <p>Contacts</p>
+            <p>Email: {{ profile.email }}</p>
+            <p>Jabber: {{ profile.jabber }}</p>
+            <p>Skype: {{ profile.skype }}</p>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-sm">
+            <p>Bio:</p>
+            <p class="bio">{{ profile.bio }}</p>
+        </div>
+
+        <div class="col">
+            <p>Other contacts:</p>
+            <p>{{ profile.other_contacts }}</p>
+        </div>
+
+
+    </div>
+</div>
+{% endblock content %}
