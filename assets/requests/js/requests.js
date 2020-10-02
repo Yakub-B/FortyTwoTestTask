@@ -25,11 +25,11 @@ function fetchData() {
 function updatePage(requests) {
     for (const request of requests) {
         let requestCard = `
-            <div class="card"><div class="card-header">Method: ${request['method']}</div>
+            <div class="card" style="margin-top: 10px"><div class="card-header">Method: ${request['method']}</div>
                 <div class="card-body">
                     <h5 class="card-title">URL: ${request['url']}</h5>
-                    <p class="card-text">content_type: ${request['content_type']},
-                        user: ${request['user']}, encoding: ${request['encoding']}
+                    <p class="card-text">Content type: ${request['content_type']},
+                        User: ${request['user']}, Encoding: ${request['encoding']}
                     </p>
                     <p class="timestamp">Timestamp: ${strftime('%b. %e, %Y, %l:%M %P.', request['timestamp'])}</p>
                 </div>

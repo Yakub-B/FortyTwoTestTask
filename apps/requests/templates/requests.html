@@ -7,23 +7,23 @@
 {% block title %} Requests {% endblock title %}
 
 {% block content %}
-    <div clas="container">
+    <div class="container">
 		<div class="title">
-			<h1>Requests</h1>
+			<h1>Last 10 Requests</h1>
             <p hidden class="latest_req">{{ latest_request_id }}</p>
 		</div>
 		<div class="row">
 			<div class="col-sm">
                 {% for req in requests %}
-				<div class="card">
+				<div class="card" style="margin-top: 10px">
 				  <div class="card-header">
 				    Method: {{ req.method }}
 				  </div>
 				  <div class="card-body">
 				    <h5 class="card-title">URL: {{ req.url }}</h5>
 				    <p class="card-text">
-				    	content_type: {{ req.content_type }},
-                        user: {{ req.user }}, encoding: {{ req.encoding }}
+				    	Content type: {{ req.content_type }},
+                        User: {{ req.user }}, Encoding: {{ req.encoding }}
 				    </p>
 				    <p class="timestamp">Timestamp: {{ req.timestamp }}</p>
 				  </div>
