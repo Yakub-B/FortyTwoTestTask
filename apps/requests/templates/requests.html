@@ -8,30 +8,30 @@
 
 {% block content %}
     <div class="container">
-		<div class="title">
-			<h1>Last 10 Requests</h1>
+        <div class="title">
+            <h1>Last 10 Requests</h1>
             <p hidden class="latest_req">{{ latest_request_id }}</p>
-		</div>
-		<div class="row">
-			<div class="col-sm">
+        </div>
+        <div class="row">
+            <div class="col-sm">
                 {% for req in requests %}
-				<div class="card text-white bg-dark mb-3" style="margin-top: 10px">
-				  <div class="card-header">
-				    Method: {{ req.method }}
-				  </div>
-				  <div class="card-body">
-				    <h5 class="card-title">URL: {{ req.url }}</h5>
-				    <p class="card-text">
-				    	Content type: {{ req.content_type }},
-                        User: {{ req.user }}, Encoding: {{ req.encoding }}
-				    </p>
-				    <p class="timestamp">Timestamp: {{ req.timestamp }}</p>
-				  </div>
-				</div>
+                    <div class="card text-white bg-dark mb-3" style="margin-top: 10px">
+                        <div class="card-header">
+                            Method: {{ req.method }}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">URL: {{ req.url }}</h5>
+                            <p class="card-text">
+                                Content type: {{ req.content_type }},
+                                User: {{ req.user }}, Encoding: {{ req.encoding }}
+                            </p>
+                            <p class="timestamp">Timestamp: {{ req.timestamp }}</p>
+                        </div>
+                    </div>
                 {% endfor %}
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
     <script src="{% static 'requests/js/strftime.js' %}"></script>
     <script src="{% static 'requests/js/requests.js' %}"></script>
 {% endblock content %}
