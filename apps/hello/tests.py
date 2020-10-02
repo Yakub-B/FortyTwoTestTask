@@ -1,8 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse, resolve
 
+from apps.hello.forms import EditProfileDataForm
 from apps.hello.models import ProfileModel
-from apps.hello.views import IndexView
+from apps.hello.views import IndexView, EditProfileDataView
 
 
 class ProfileModelTests(TestCase):
@@ -76,3 +77,47 @@ class IndexViewTests(TestCase):
             view.func.__name__,
             IndexView.as_view().__name__
         )
+
+
+class EditProfileDataPageTests(TestCase):
+    def setUp(self):
+        client = Client()
+        client.login(username='admin', password='admin')
+        self.get_response = client.get('/edit-profile/')
+        self.post_response = client.post('/edit-profile/', {'name': 'New', 'bio': 'New interesting bio'})
+
+    def test_status_code(self):
+        """
+        testing status code returned by view
+        """
+        self.assertEqual(200, self.get_response.status_code)
+
+    def test_template_used(self):
+        """
+        testing if the right template is used in view
+        """
+        self.assertTemplateUsed(
+            template_name='edit_profile.html', response=self.get_response
+        )
+
+    def test_context_form(self):
+        """
+        Test form in page context
+        """
+        self.assertIsInstance(self.get_response.context['form'], EditProfileDataForm)
+
+    def test_index_view_resolves_index_page(self):
+        """
+        testing if the right view resolves '/edit-profile/' url
+        """
+        view = resolve('/edit-profile/')
+        self.assertEqual(
+            view.func.__name__,
+            EditProfileDataView.as_view().__name__
+        )
+
+    def test_post_request_status_code(self):
+        """
+        testing status code returned by view
+        """
+        self.assertEqual(200, self.post_response.status_code)
