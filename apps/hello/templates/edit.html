@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+{% endblock extra_head %}
+
+{% block title %}
+    Edit page
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="title">
+        <h1>42 Coffee Cups Test Assignment</h1>
+        <a href="{% url 'hello:index' %}">Main page</a>
+    </div>
+    <div id="success" class="alert alert-primary" role="alert" hidden></div>
+    <div id="fail" class="alert alert-danger" role="alert" hidden><ul></ul></div>
+
+    <form id="profile_edit" method="post">
+    {% csrf_token %}
+	    <div class="row">
+
+	        <div class="col-sm">
+                <label for="">Name:</label>
+	            {{ form.name }}<br>
+	            <label for="last_name">Last name: </label>
+	            {{ form.last_name }}<br>
+	            <label for="b-day">Date of birth: </label>
+	            {{ form.birthday_date }}<br>
+	        </div>
+
+	        <div class="col-sm">
+	            <p>Contacts</p>
+	            <label for="email">Email: </label>
+	            {{ form.email }}<br>
+                <label for="jabber">Jabber: </label>
+	            {{ form.jabber }}<br>
+	            <label for="skype">Skype: </label>
+	            {{ form.skype }}<br>
+	        </div>
+
+
+	    </div>
+
+	    <div class="row">
+	    	<div class="col-sm">
+                {% if profile.profile_photo %}
+	    		<p>Photo:</p>
+	            <img id="preview_img" src="/media/{{ profile.profile_photo }}" alt="Image">
+                {% endif %}
+	    	</div>
+
+	    	<div class="col-sm">
+	    		<div>
+		            <label for="other_contacts">Other contacts: </label><br>
+	            	{{ form.other_contacts }}<br>
+
+	            </div>
+
+	            <div>
+		            <label for="bio">Bio: </label><br>
+	            	{{ form.bio }}<br>
+	            </div>
+	        </div>
+
+	    </div>
+
+	    <div>
+	    	<input style="margin-top: 10px" type="submit" name="" value="Submit">
+	    	<input type="reset" name="" value="Reset to default">
+	    </div>
+	</form>
+</div>
+    <script src="{% static 'hello/js/script.js' %}"></script>
+{% endblock content %}
