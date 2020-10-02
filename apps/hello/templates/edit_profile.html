@@ -20,24 +20,25 @@
 
     <form id="profile_edit" method="post">
     {% csrf_token %}
-	    <div class="row">
+	    <div style="margin-top: 15px" class="row">
 
 	        <div class="col-sm">
-                <label for="">Name:</label>
-	            {{ form.name }}<br>
-	            <label for="last_name">Last name: </label>
-	            {{ form.last_name }}<br>
-	            <label for="b-day">Date of birth: </label>
+                <h4>Personal info:</h4>
+                {{ form.name.label }}<br>
+                {{ form.name }}<br>
+	            {{ form.last_name.label }}<br>
+                {{ form.last_name }}<br>
+	            {{ form.birthday_date.label }}<br>
 	            {{ form.birthday_date }}<br>
 	        </div>
 
 	        <div class="col-sm">
-	            <p>Contacts</p>
-	            <label for="email">Email: </label>
+                <h4>Contacts:</h4>
+	            {{ form.email.label }}<br>
 	            {{ form.email }}<br>
-                <label for="jabber">Jabber: </label>
+                {{ form.jabber.label }}<br>
 	            {{ form.jabber }}<br>
-	            <label for="skype">Skype: </label>
+	            {{ form.skype.label }}<br>
 	            {{ form.skype }}<br>
 	        </div>
 
@@ -54,22 +55,22 @@
 
 	    	<div class="col-sm">
 	    		<div>
-		            <label for="other_contacts">Other contacts: </label><br>
+		            {{ form.other_contacts.label }}<br>
 	            	{{ form.other_contacts }}<br>
 
 	            </div>
 
 	            <div>
-		            <label for="bio">Bio: </label><br>
+		            {{ form.bio.label }}<br>
 	            	{{ form.bio }}<br>
 	            </div>
 	        </div>
 
 	    </div>
 
-	    <div>
-	    	<input style="margin-top: 10px" type="submit" name="" value="Submit">
-	    	<input type="reset" name="" value="Reset to default">
+	    <div style="margin-top: 10px">
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-secondary" type="reset">Reset to default</button>
 	    </div>
 	</form>
 </div>

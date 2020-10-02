@@ -7,5 +7,7 @@ class EditProfileDataForm(forms.ModelForm):
         model = ProfileModel
         fields = '__all__'
         widgets = {
-            'birthday_date': forms.DateInput(attrs={'type': 'date'})
+            'birthday_date': forms.DateInput(attrs={'type': 'date'}),
+            'bio': forms.Textarea(attrs={'rows': 4, 'cols': 24}),
+            'other_contacts': forms.Textarea(attrs={'rows': 4, 'cols': 24})
         }
