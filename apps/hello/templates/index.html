@@ -9,11 +9,11 @@
 <div class="container">
     <div class="title">
         <h1 class="title">42 Coffee Cups Test Assignment</h1>
-        <a href="#">Edit</a>
+        <a href="{% url 'hello:edit' %}">Edit</a>
         {% if user.is_authenticated %}
-            <a href="#">Log Out</a>
+            <a href="{% url 'logout' %}">Log Out</a>
         {% else %}
-            <a href="#">Log In</a>
+            <a href="{% url 'login' %}">Log In</a>
         {% endif %}
 
 
