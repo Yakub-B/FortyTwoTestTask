@@ -1,9 +1,13 @@
-from django.test import TestCase, Client
+from django.contrib.auth import get_user_model
+from django.test import TestCase
 from django.urls import reverse, resolve
 
 from apps.hello.forms import EditProfileDataForm
 from apps.hello.models import ProfileModel
 from apps.hello.views import IndexView, EditProfileDataView
+
+
+User = get_user_model()
 
 
 class ProfileModelTests(TestCase):
@@ -81,10 +85,10 @@ class IndexViewTests(TestCase):
 
 class EditProfileDataPageTests(TestCase):
     def setUp(self):
-        client = Client()
-        client.login(username='admin', password='admin')
-        self.get_response = client.get('/edit-profile/')
-        self.post_response = client.post('/edit-profile/', {'name': 'New', 'bio': 'New interesting bio'})
+        user = User.objects.create_user(username='admin', password='admin')
+        self.client.force_login(user)
+        self.get_response = self.client.get(reverse('hello:edit'))
+        self.post_response = self.client.post(reverse('hello:edit'), {'name': 'New', 'bio': 'New interesting bio'})
 
     def test_status_code(self):
         """
