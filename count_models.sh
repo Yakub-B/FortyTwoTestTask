@@ -1,0 +1,1 @@
+./manage.py count_models 2> `date -I`.dat
