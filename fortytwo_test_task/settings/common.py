@@ -41,7 +41,8 @@ INSTALLED_APPS = [
 
     # local
     'apps.hello.apps.HelloConfig',
-    'apps.requests.apps.RequestsConfig'
+    'apps.requests.apps.RequestsConfig',
+    'apps.management.apps.ManagementConfig'
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load admin_link_tag %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static "hello/css/hello.css" %}">
@@ -9,7 +10,7 @@
 <div class="container">
     <div class="title">
         <h1 class="title">42 Coffee Cups Test Assignment</h1>
-        <a href="#">(admin)</a>
+        <a href="{% edit_link profile %}">(admin)</a>
     </div>
     <div class="row">
 
