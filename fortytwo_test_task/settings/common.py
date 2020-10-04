@@ -26,7 +26,7 @@ SECRET_KEY = 'nwvy4v3acf*oxu$k(_bkue3m1x6nzaw$a=z^uk1e82)ou#d&8l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['getbarista.com', ]
 
 
 # Application definition
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # local
-    'apps.hello.apps.HelloConfig'
+    'apps.hello.apps.HelloConfig',
+    'apps.requests.apps.RequestsConfig'
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'apps.requests.middleware.RequestLoggerMiddleware'
 ]
 
 ROOT_URLCONF = 'fortytwo_test_task.urls'
