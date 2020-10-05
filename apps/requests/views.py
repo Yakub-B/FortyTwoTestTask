@@ -17,3 +17,7 @@ class LastTenRequestsView(View):
             return last_ten_requests_not_ajax(request)
         else:
             return last_ten_requests_ajax(request)
+
+
+class EditRequestPriorityView(View):
+    pass

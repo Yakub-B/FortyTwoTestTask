@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 
-from django.urls import resolve
+from django.urls import resolve, reverse
 
 from apps.requests.models import RequestModel
 from apps.requests.views import LastTenRequestsView
@@ -105,3 +105,28 @@ class LastTenRequestsViewTests(TestCase):
             view.func.__name__,
             LastTenRequestsView.as_view().__name__
         )
+
+
+class EditRequestPriorityViewTests(TestCase):
+
+    def setUp(self):
+        RequestModel.objects.create(
+            method='POST', url='http://localhos:8000/test',
+            encoding='utf-8', content_type='text/html'
+        )
+        self.response = self.client.post(
+            path=reverse('requests:edit_priority'), data={'id': 1, 'priority': 2}
+        )
+
+    def test_status_code(self):
+        """
+        testing status code returned by view
+        """
+        self.assertEqual(301, self.response.status_code)
+
+    def test_request_change_priority(self):
+        """
+        testing if priority of request changed by view
+        """
+        request = RequestModel.objects.get(id=1)
+        self.assertEqual(2, request.priority)
