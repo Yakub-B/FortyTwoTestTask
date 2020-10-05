@@ -19,5 +19,5 @@ class RequestModel(models.Model):
     )
 
     class Meta:
-        ordering = ('-timestamp',)
+        ordering = ('-priority', '-timestamp')
         get_latest_by = 'id'

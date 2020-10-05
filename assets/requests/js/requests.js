@@ -25,7 +25,10 @@ function fetchData() {
 function updatePage(requests) {
     for (const request of requests) {
         let requestCard = `
-            <div class="card text-white bg-dark mb-3" style="margin-top: 10px"><div class="card-header">Method: ${request['method']}</div>
+            <div class="card text-white bg-dark mb-3" style="margin-top: 10px">
+                <div class="card-header">
+                    Method: ${request['method']}, Priority: ${request.priority}
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">URL: ${request['url']}</h5>
                     <p class="card-text">Content type: ${request['content_type']},

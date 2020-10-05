@@ -21,7 +21,13 @@ class LastTenRequestsView(View):
                 latest_request_id = RequestModel.objects.all().latest().id
             except ObjectDoesNotExist:
                 raise Http404
-            qs = RequestModel.objects.all()[:10]
+
+            if request.GET.get('priority'):
+                priority = request.GET.get('priority')
+                qs = RequestModel.objects.filter(priority=priority)[:10]
+            else:
+                qs = RequestModel.objects.all()[:10]
+
             context = {'requests': qs, 'latest_request_id': latest_request_id}
             return render(request, 'requests.html', context)
         else:
@@ -30,7 +36,8 @@ class LastTenRequestsView(View):
             if request.GET.get('id'):
                 # looking for newer requests
                 # (with id grater then id we got from ajax)
-                new_qs = RequestModel.objects.filter(id__gt=request.GET['id']).order_by('timestamp')[:10]
+                new_qs = RequestModel.objects.filter(
+                    id__gt=request.GET['id']).order_by('priority', 'timestamp')[:10]
                 if new_qs.exists():
                     # serializing queryset
                     data = list(new_qs.values())
