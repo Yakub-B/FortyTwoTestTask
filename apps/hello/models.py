@@ -1,4 +1,7 @@
+from PIL import Image
 from django.db import models
+
+from apps.hello.utils import resize_image
 
 
 class ProfileModel(models.Model):
@@ -16,3 +19,13 @@ class ProfileModel(models.Model):
     skype = models.CharField(max_length=115)
 
     other_contacts = models.TextField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        """
+        Resizing profile photo
+        """
+        if self.profile_photo:    # checking if the image needs to be resized
+            img = Image.open(self.profile_photo)
+            if img.height > 200 or img.width > 200:
+                self.profile_photo = resize_image((200, 200), self.profile_photo)
+        super().save(*args, **kwargs)

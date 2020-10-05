@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"
+            integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn"
+            crossorigin="anonymous"></script>
+{% endblock extra_head %}
+
+{% block title %}
+    Edit page
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="title">
+            <h1>42 Coffee Cups Test Assignment</h1>
+            <a href="{% url 'hello:index' %}">Main page</a>
+        </div>
+        <div id="success" class="alert alert-primary" role="alert" hidden></div>
+        <div id="fail" class="alert alert-danger" role="alert" hidden>
+            <ul></ul>
+        </div>
+
+        <form id="profile_edit" method="post">
+            {% csrf_token %}
+            <div style="margin-top: 15px" class="row">
+                <div class="col-sm">
+                    <h4>Personal info:</h4>
+                    {{ form.name.label }}<br>
+                    {{ form.name }}<br>
+                    {{ form.last_name.label }}<br>
+                    {{ form.last_name }}<br>
+                    {{ form.birthday_date.label }}<br>
+                    {{ form.birthday_date }}<br>
+                </div>
+
+                <div class="col-sm">
+                    <h4>Contacts:</h4>
+                    {{ form.email.label }}<br>
+                    {{ form.email }}<br>
+                    {{ form.jabber.label }}<br>
+                    {{ form.jabber }}<br>
+                    {{ form.skype.label }}<br>
+                    {{ form.skype }}<br>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm">
+                    {% if profile.profile_photo %}
+                        <p>Photo:</p>
+                        <img id="preview_img" src="{{ profile.profile_photo.url }}" alt="Image">
+                    {% endif %}
+                </div>
+
+                <div class="col-sm">
+                    <div>
+                        {{ form.other_contacts.label }}<br>
+                        {{ form.other_contacts }}<br>
+                    </div>
+
+                    <div>
+                        {{ form.bio.label }}<br>
+                        {{ form.bio }}<br>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px">
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-secondary" type="reset">Reset to default</button>
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'hello/js/edit.js' %}"></script>
+{% endblock content %}
