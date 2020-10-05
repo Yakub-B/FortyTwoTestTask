@@ -30,7 +30,14 @@
                     <div class="card text-white bg-dark mb-3" style="margin-top: 10px">
                         <div class="card-header">
                             Method: {{ req.method }},
-                            Priority: {{ req.priority }}
+                            <form action="edit_priority/" method="post">
+                                {% csrf_token %}
+                                <label for="priority">Priority:</label>
+                                <input id="priority" type="number" name="priority" value="{{ req.priority }}">
+                                <input type="hidden" name="id" value="{{ req.id }}">
+                                <input type="submit" value="change">
+                            </form>
+
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">URL: {{ req.url }}</h5>

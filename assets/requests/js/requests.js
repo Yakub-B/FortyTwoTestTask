@@ -27,7 +27,14 @@ function updatePage(requests) {
         let requestCard = `
             <div class="card text-white bg-dark mb-3" style="margin-top: 10px">
                 <div class="card-header">
-                    Method: ${request['method']}, Priority: ${request.priority}
+                    Method: ${request['method']},
+                    <form action="edit_priority/" method="post">
+                      <label for="priority">Priority:</label>
+                      <input id="priority" type="number" name="priority" value="${request['priority']}">
+                      <input type="hidden" name="id" value="${request['id']}">
+                      <input type="hidden" name="csrfmiddlewaretoken" value="${getCookie('csrftoken')}">
+                      <input type="submit" value="change">
+                    </form>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">URL: ${request['url']}</h5>
@@ -40,6 +47,22 @@ function updatePage(requests) {
         $('.col-sm').prepend(requestCard);
         $('.col-sm').children().last().remove();
     }
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 
 $(document).ready(function () {
