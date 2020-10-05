@@ -122,7 +122,7 @@ class EditRequestPriorityViewTests(TestCase):
         """
         testing status code returned by view
         """
-        self.assertEqual(301, self.response.status_code)
+        self.assertEqual(302, self.response.status_code)
 
     def test_request_change_priority(self):
         """

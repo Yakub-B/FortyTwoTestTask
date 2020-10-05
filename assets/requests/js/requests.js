@@ -28,7 +28,7 @@ function updatePage(requests) {
             <div class="card text-white bg-dark mb-3" style="margin-top: 10px">
                 <div class="card-header">
                     Method: ${request['method']},
-                    <form action="edit_priority/" method="post">
+                    <form action="edit-priority/" method="post">
                       <label for="priority">Priority:</label>
                       <input id="priority" type="number" name="priority" value="${request['priority']}">
                       <input type="hidden" name="id" value="${request['id']}">
