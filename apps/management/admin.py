@@ -1,2 +1,5 @@
+from django.contrib import admin
 
-# Register your models here.
+from apps.management.models import DataBaseActionModel
+
+admin.site.register(DataBaseActionModel)
