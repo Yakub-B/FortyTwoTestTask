@@ -19,7 +19,7 @@ class ProfileModelTests(TestCase):
         # creating profile instance
         cls.profile = ProfileModel(
             name='Bohdan', last_name='Yakubovskyi',
-            birthday_date='18.10.2000', bio='Lalala test',
+            birthday_date='2000-10-18', bio='Lalala test',
             email='test@test.com', jabber='test@cc.co',
             skype='124519222asd', other_contacts='telegram: @grey_five_9'
         )
@@ -30,7 +30,7 @@ class ProfileModelTests(TestCase):
         """
         self.assertEqual('Bohdan', self.profile.name)
         self.assertEqual('Yakubovskyi', self.profile.last_name)
-        self.assertEqual('18.10.2000', self.profile.birthday_date)
+        self.assertEqual('2000-10-18', self.profile.birthday_date)
         self.assertEqual('Lalala test', self.profile.bio)
         self.assertEqual('test@test.com', self.profile.email)
         self.assertEqual('test@cc.co', self.profile.jabber)
@@ -50,9 +50,9 @@ class IndexViewTests(TestCase):
         making request to test view
         """
         # creating profile instance
-        self.profile = ProfileModel(
+        self.profile = ProfileModel.objects.create(
             name='Bohdan', last_name='Yakubovskyi',
-            birthday_date='18.10.2000', bio='Lalala test',
+            birthday_date='2000-10-18', bio='Lalala test',
             email='test@test.com', jabber='test@cc.co',
             skype='124519222asd',
         )

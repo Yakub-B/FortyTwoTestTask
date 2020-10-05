@@ -53,14 +53,14 @@ class RequestLoggerMiddlewareTests(TestCase):
         )
         client = Client()
         client.force_login(cls.user_instance)
-        cls.response = client.get('/')
+        cls.response = client.get('/requests/')
 
     def test_request_logging(self):
         """
         Testing if request is saved into db
         """
         request_instance = RequestModel.objects.get(user=self.user_instance)
-        self.assertEqual('http://testserver/', request_instance.url)
+        self.assertEqual('http://testserver/requests/', request_instance.url)
         self.assertEqual('GET', request_instance.method)
         self.assertEqual(None, request_instance.encoding)
         self.assertEqual('', request_instance.content_type)
