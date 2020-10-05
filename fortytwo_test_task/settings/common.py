@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 SECRET_KEY = 'nwvy4v3acf*oxu$k(_bkue3m1x6nzaw$a=z^uk1e82)ou#d&8l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['getbarista.com', ]
+ALLOWED_HOSTS = ['fortytwotesttask-574.bohdanyakubovskyi.at.getbarista.com', ]
 
 
 # Application definition
