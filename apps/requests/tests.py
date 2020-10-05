@@ -64,6 +64,7 @@ class RequestLoggerMiddlewareTests(TestCase):
         self.assertEqual('GET', request_instance.method)
         self.assertEqual(None, request_instance.encoding)
         self.assertEqual('', request_instance.content_type)
+        self.assertEqual(1, request_instance.priority)
 
 
 # views tests
