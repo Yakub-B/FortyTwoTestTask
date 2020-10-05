@@ -10,6 +10,7 @@ class RequestModel(models.Model):
     method = models.CharField(max_length=10)
     encoding = models.CharField(max_length=10, null=True)
     content_type = models.CharField(max_length=50)
+    priority = models.IntegerField(default=1)
 
     timestamp = models.DateTimeField(auto_now_add=True)
 
