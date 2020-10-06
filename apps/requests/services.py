@@ -11,9 +11,12 @@ def last_ten_requests_not_ajax(request):
     except ObjectDoesNotExist:
         raise Http404
 
-    if request.GET.get('priority'):
-        priority = request.GET.get('priority')
-        qs = RequestModel.objects.filter(priority=priority)[:10]
+    sort_by = request.GET.get('sort_by')
+    if sort_by:
+        if 'priority' in sort_by:
+            qs = RequestModel.objects.order_by(sort_by, '-timestamp')[:10]
+        else:
+            qs = RequestModel.objects.order_by(sort_by)[:10]
     else:
         qs = RequestModel.objects.all()[:10]
 
