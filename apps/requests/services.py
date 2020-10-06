@@ -34,8 +34,11 @@ def last_ten_requests_ajax(request):
             data = list(new_qs.values())
             counter = 0
             for obj in data:
-                obj['user'] = new_qs[counter].user.username
-                counter += 1
+                try:
+                    obj['user'] = new_qs[counter].user.username
+                    counter += 1
+                except AttributeError:
+                    counter += 1
             latest_request_id = data[-1]['id']
             data = {
                 'requests': data, 'latest_request_id': latest_request_id
