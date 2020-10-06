@@ -66,7 +66,7 @@ function getCookie(name) {
 }
 
 $(document).ready(function () {
-    setInterval(fetchData, 20000)
+    setInterval(fetchData, 2000)
     window.onmousemove = function () {
         cour = 0
         document.title = 'Requests'
