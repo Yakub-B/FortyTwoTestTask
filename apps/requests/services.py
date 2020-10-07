@@ -35,13 +35,12 @@ def last_ten_requests_ajax(request):
         if new_qs.exists():
             # serializing queryset
             data = list(new_qs.values())
-            print(data)
             counter = 0
             for obj in data:
                 try:
                     obj['user'] = new_qs[counter].user.username
                     obj['priority'] = new_qs[counter].url_priority.priority
-                    obj['url'] = new_qs[counter].url_priority.url
+                    obj['url'] = new_qs[counter].url_priority.path
                     counter += 1
                 except AttributeError:
                     counter += 1

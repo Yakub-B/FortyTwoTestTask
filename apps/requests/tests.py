@@ -3,7 +3,7 @@ from django.test import TestCase, Client
 
 from django.urls import resolve, reverse
 
-from apps.requests.models import RequestModel
+from apps.requests.models import RequestModel, UrlPriority
 from apps.requests.views import LastTenRequestsView
 
 # models tests
@@ -22,16 +22,18 @@ class RequestsModelTests(TestCase):
             username='test', password='test'
         )
         # creating request instance
+        url_priority = UrlPriority.objects.create(path='http://localhos:8000/test')
         cls.request = RequestModel.objects.create(
-            method='POST', url='http://localhos:8000/test',
-            encoding='utf-8', user=cls.user_instance, content_type='text/html'
+            method='POST', encoding='utf-8', user=cls.user_instance,
+            content_type='text/html', url_priority=url_priority
         )
 
     def test_request_creation(self):
         """
         Testing creation of request instance
         """
-        self.assertEqual('http://localhos:8000/test', self.request.url)
+        self.assertEqual('http://localhos:8000/test', self.request.url_priority.path)
+        self.assertEqual(1, self.request.url_priority.priority)
         self.assertEqual('POST', self.request.method)
         self.assertEqual('utf-8', self.request.encoding)
         self.assertEqual('text/html', self.request.content_type)
@@ -60,11 +62,11 @@ class RequestLoggerMiddlewareTests(TestCase):
         Testing if request is saved into db
         """
         request_instance = RequestModel.objects.get(user=self.user_instance)
-        self.assertEqual('http://testserver/requests/', request_instance.url)
+        self.assertEqual('http://testserver/requests/', request_instance.url_priority.path)
         self.assertEqual('GET', request_instance.method)
         self.assertEqual(None, request_instance.encoding)
         self.assertEqual('', request_instance.content_type)
-        self.assertEqual(1, request_instance.priority)
+        self.assertEqual(1, request_instance.url_priority.priority)
 
 
 # views tests
@@ -107,13 +109,10 @@ class LastTenRequestsViewTests(TestCase):
         )
 
 
-class EditRequestPriorityViewTests(TestCase):
+class EditUrlPriorityViewTests(TestCase):
 
     def setUp(self):
-        RequestModel.objects.create(
-            method='POST', url='http://localhos:8000/test',
-            encoding='utf-8', content_type='text/html'
-        )
+        UrlPriority.objects.create(path='http://testserver')
         self.response = self.client.post(
             path=reverse('requests:edit_priority'), data={'id': 1, 'priority': 2}
         )
@@ -129,4 +128,4 @@ class EditRequestPriorityViewTests(TestCase):
         testing if priority of request changed by view
         """
         request = RequestModel.objects.get(id=1)
-        self.assertEqual(2, request.priority)
+        self.assertEqual(2, request.url_priority.priority)
