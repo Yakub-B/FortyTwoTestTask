@@ -1,9 +1,13 @@
 
-let cour = 0
+let new_requests_count = 0
 
 function fetchData() {
+    let url = `?id=${$('.latest_req').text()}`
+    if (findGetParameter('sort_by')) {
+        url += `&sort_by=${findGetParameter('sort_by')}`
+    }
     $.ajax({
-        url: `?id=${$('.latest_req').text()}`,
+        url: url,
         type: 'get',
         success: function (response) {
             console.log(response);
@@ -12,11 +16,12 @@ function fetchData() {
             }
             $('.latest_req').text(response['latest_request_id']);
             updatePage(response['requests'])
-            if (cour + response['requests'].length >= 10) {
+            console.log(typeof response['new_requests_count'])
+            if (new_requests_count + response['new_requests_count'] >= 10) {
                 document.title = `(${10}) Requests`
             } else {
-                cour += response['requests'].length
-                document.title = `(${cour}) Requests`
+                new_requests_count += response['new_requests_count']
+                document.title = `(${new_requests_count}) Requests`
             }
         }
     });
@@ -27,7 +32,7 @@ function updatePage(requests) {
         let requestCard = `
             <div class="card text-white bg-dark mb-3" style="margin-top: 10px">
                 <div class="card-header">
-                    Method: ${request['method']},
+                    Method: ${request['method']}
                     <form action="edit-priority/" method="post">
                       <label for="priority">Priority:</label>
                       <input id="priority" type="number" name="priority" value="${request['priority']}">
@@ -41,12 +46,25 @@ function updatePage(requests) {
                     <p class="card-text">Content type: ${request['content_type']},
                         User: ${request['user']}, Encoding: ${request['encoding']}
                     </p>
-                    <p class="timestamp">Timestamp: ${strftime('%b. %e, %Y, %l:%M %P.', request['timestamp'])}</p>
+                    <p class="timestamp">Timestamp: ${request['timestamp']}</p>
                 </div>
             </div>`
         $('.col-sm').prepend(requestCard);
         $('.col-sm').children().last().remove();
     }
+}
+
+function findGetParameter(parameterName) {
+    let result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+          tmp = item.split("=");
+          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
 }
 
 function getCookie(name) {
@@ -66,9 +84,9 @@ function getCookie(name) {
 }
 
 $(document).ready(function () {
-    setInterval(fetchData, 2000)
+    setInterval(fetchData, 5000)
     window.onmousemove = function () {
-        cour = 0
+        new_requests_count = 0
         document.title = 'Requests'
     }
 })
