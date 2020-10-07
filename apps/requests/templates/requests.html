@@ -26,8 +26,8 @@
                     Priority
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="?sort_by=-priority">Ascending</a>
-                    <a class="dropdown-item" href="?sort_by=priority">Descending</a>
+                    <a class="dropdown-item" href="?sort_by=-url_priority__priority">Ascending</a>
+                    <a class="dropdown-item" href="?sort_by=url_priority__priority">Descending</a>
                 </div>
             </div>
             <div class="dropdown" style="display: inline-block;">
@@ -55,14 +55,14 @@
                             <form action="edit-priority/" method="post">
                                 {% csrf_token %}
                                 <label for="priority">Priority:</label>
-                                <input id="priority" type="number" name="priority" value="{{ req.priority }}">
+                                <input id="priority" type="number" name="priority" value="{{ req.url_priority.priority }}">
                                 <input type="hidden" name="id" value="{{ req.id }}">
                                 <input type="submit" value="change">
                             </form>
 
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">URL: {{ req.url }}</h5>
+                            <h5 class="card-title">URL: {{ req.url_priority.path }}</h5>
                             <p class="card-text">
                                 Content type: {{ req.content_type }},
                                 User: {{ req.user }}, Encoding: {{ req.encoding }}

@@ -6,14 +6,13 @@ class RequestModel(models.Model):
     """
     Model for storing requests into db
     """
-    url = models.URLField(max_length=300)
     method = models.CharField(max_length=10)
     encoding = models.CharField(max_length=10, null=True)
     content_type = models.CharField(max_length=50)
-    priority = models.IntegerField(default=1)
 
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    url_priority = models.ForeignKey("UrlPriority", on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -21,3 +20,11 @@ class RequestModel(models.Model):
     class Meta:
         ordering = ('-timestamp',)
         get_latest_by = 'id'
+
+
+class UrlPriority(models.Model):
+    """
+    Model for storing request priority linked to request path
+    """
+    priority = models.IntegerField(default=1)
+    path = models.URLField(max_length=300)

@@ -14,11 +14,11 @@ def last_ten_requests_not_ajax(request):
     sort_by = request.GET.get('sort_by')
     if sort_by:
         if 'priority' in sort_by:
-            qs = RequestModel.objects.order_by(sort_by, '-timestamp')[:10]
+            qs = RequestModel.objects.select_related('url_priority').order_by(sort_by, '-timestamp')[:10]
         else:
-            qs = RequestModel.objects.order_by(sort_by)[:10]
+            qs = RequestModel.objects.select_related('url_priority').order_by(sort_by)[:10]
     else:
-        qs = RequestModel.objects.all()[:10]
+        qs = RequestModel.objects.select_related('url_priority').all()[:10]
 
     context = {'requests': qs, 'latest_request_id': latest_request_id}
     return render(request, 'requests.html', context)
@@ -30,15 +30,18 @@ def last_ten_requests_ajax(request):
     if request.GET.get('id'):
         # looking for newer requests
         # (with id grater then id we got from ajax)
-        new_qs = RequestModel.objects.filter(
-            id__gt=request.GET['id']).order_by('priority', 'timestamp')[:10]
+        new_qs = RequestModel.objects.select_related('url_priority').filter(
+            id__gt=request.GET['id']).order_by('url_priority__priority', 'timestamp')[:10]
         if new_qs.exists():
             # serializing queryset
             data = list(new_qs.values())
+            print(data)
             counter = 0
             for obj in data:
                 try:
                     obj['user'] = new_qs[counter].user.username
+                    obj['priority'] = new_qs[counter].url_priority.priority
+                    obj['url'] = new_qs[counter].url_priority.url
                     counter += 1
                 except AttributeError:
                     counter += 1

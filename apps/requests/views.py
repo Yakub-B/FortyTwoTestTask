@@ -2,7 +2,7 @@ from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.views.generic.base import View
 
-from apps.requests.forms import RequestPriorityForm
+from apps.requests.forms import UrlPriorityForm
 from apps.requests.models import RequestModel
 from apps.requests.services import last_ten_requests_not_ajax, last_ten_requests_ajax
 
@@ -26,11 +26,8 @@ class LastTenRequestsView(View):
 class EditRequestPriorityView(View):
     def post(self, request):
         request_instance = RequestModel.objects.get(id=request.POST.get('id'))
-        form = RequestPriorityForm(request.POST, instance=request_instance)
+        form = UrlPriorityForm(request.POST, instance=request_instance.url_priority)
         if form.is_valid():
-            url = request_instance.url
-            requests_to_update = RequestModel.objects.filter(url=url)
-            requests_to_update.update(priority=form.cleaned_data.get('priority'))
             form.save()
             return redirect('requests:last_requests')
         else:

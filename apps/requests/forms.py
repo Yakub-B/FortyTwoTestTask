@@ -1,9 +1,9 @@
 from django import forms
 
-from apps.requests.models import RequestModel
+from apps.requests.models import UrlPriority
 
 
-class RequestPriorityForm(forms.ModelForm):
+class UrlPriorityForm(forms.ModelForm):
     class Meta:
-        model = RequestModel
+        model = UrlPriority
         fields = ('priority',)
