@@ -51,7 +51,6 @@ def last_ten_requests_ajax(request):
                 counter += 1
         data.reverse()
         latest_request_id = RequestModel.objects.all().latest().id
-        print(new_requests_count)
         data = {
             'requests': data, 'latest_request_id': latest_request_id,
             'new_requests_count': new_requests_count
