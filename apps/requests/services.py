@@ -19,6 +19,28 @@ def last_ten_requests_not_ajax(request):
     return render(request, 'requests.html', context)
 
 
+def serialize_requests(requests_queryset):
+    data = []
+    for obj in requests_queryset:
+        serialized_request = {
+            'id': obj.id,
+            'priority': obj.url_priority.priority,
+            'url': obj.url_priority.path,
+            'timestamp': timezone.localtime(obj.timestamp).strftime('%b. %e, %Y, %l:%M %P.'),
+            'encoding': obj.encoding,
+            'method': obj.method,
+            'content_type': obj.content_type,
+        }
+        try:
+            serialized_request['user'] = obj.user.username
+        except AttributeError:
+            serialized_request['user'] = None
+        data.append(serialized_request)
+
+    data.reverse()
+    return data
+
+
 def last_ten_requests_ajax(request):
     # in get parameter 'id' we get id of the last request displayed on page
     if request.GET.get('id'):
@@ -28,24 +50,7 @@ def last_ten_requests_ajax(request):
             sort_by, '-timestamp')[:10]
         new_requests_count = RequestModel.objects.filter(id__gt=request.GET['id']).count()
         # serializing queryset
-        data = []
-        for obj in new_qs:
-            serialized_request = {
-                'id': obj.id,
-                'priority': obj.url_priority.priority,
-                'url': obj.url_priority.path,
-                'timestamp': timezone.localtime(obj.timestamp).strftime('%b. %e, %Y, %l:%M %P.'),
-                'encoding': obj.encoding,
-                'method': obj.method,
-                'content_type': obj.content_type,
-            }
-            try:
-                serialized_request['user'] = obj.user.username
-            except AttributeError:
-                serialized_request['user'] = None
-            data.append(serialized_request)
-
-        data.reverse()
+        data = serialize_requests(new_qs)
         latest_request_id = RequestModel.objects.latest().id
         data = {
             'requests': data, 'latest_request_id': latest_request_id,
