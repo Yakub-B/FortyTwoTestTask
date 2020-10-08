@@ -18,7 +18,7 @@ class RequestLoggerMiddleware(MiddlewareMixin):
         if request.is_ajax():
             return False
         for path in PATHS_TO_IGNORE:
-            if path in request.path:
+            if request.path.endswith(path):
                 return False
         return True
 
