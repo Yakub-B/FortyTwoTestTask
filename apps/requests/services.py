@@ -17,9 +17,10 @@ def last_ten_requests_not_ajax(request):
         if 'priority' in sort_by:
             qs = RequestModel.objects.select_related('url_priority').order_by(sort_by, '-timestamp')[:10]
         else:
-            qs = RequestModel.objects.select_related('url_priority').order_by(sort_by)[:10]
+            qs = RequestModel.objects.select_related('url_priority').order_by(sort_by, '-timestamp')[:10]
     else:
-        qs = RequestModel.objects.select_related('url_priority').order_by('-url_priority__priority')[:10]
+        qs = RequestModel.objects.select_related('url_priority').order_by(
+            '-url_priority__priority', '-timestamp')[:10]
 
     context = {'requests': qs, 'latest_request_id': latest_request_id}
     return render(request, 'requests.html', context)

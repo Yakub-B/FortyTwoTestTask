@@ -26,5 +26,5 @@ class UrlPriority(models.Model):
     """
     Model for storing request priority linked to request path
     """
-    priority = models.IntegerField(default=1)
+    priority = models.IntegerField(default=1, blank=True)
     path = models.URLField(max_length=300)
