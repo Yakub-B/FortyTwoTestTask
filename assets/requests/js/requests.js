@@ -55,8 +55,8 @@ function updatePage(requests) {
 }
 
 function findGetParameter(parameterName) {
-    let result = null,
-        tmp = [];
+    let result = null;
+    let tmp = [];
     location.search
         .substr(1)
         .split("&")

@@ -2,7 +2,7 @@ from django.utils.deprecation import MiddlewareMixin
 
 from apps.requests.models import RequestModel, UrlPriority
 
-PATHS_TO_IGNORE = ('static', 'media', 'favicon.ico')
+PATHS_TO_IGNORE = ('.js', '.css', '.ico', '.jpeg')
 
 
 class RequestLoggerMiddleware(MiddlewareMixin):
