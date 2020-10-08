@@ -41,7 +41,7 @@
                 {% for req in requests %}
                     <div class="card text-white bg-dark mb-3" style="margin-top: 10px">
                         <div class="card-header">
-                            Method: {{ req.method }},
+                            Method: {{ req.method }}
                             <form action="edit-priority/" method="post">
                                 {% csrf_token %}
                                 <label for="priority">Priority:</label>

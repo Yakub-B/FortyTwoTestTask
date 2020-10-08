@@ -1,8 +1,6 @@
 from django.utils.deprecation import MiddlewareMixin
-
+from django.conf import settings
 from apps.requests.models import RequestModel, UrlPriority
-
-PATHS_TO_IGNORE = ('.js', '.css', '.ico', '.jpeg')
 
 
 class RequestLoggerMiddleware(MiddlewareMixin):
@@ -15,12 +13,9 @@ class RequestLoggerMiddleware(MiddlewareMixin):
         """
         This function checks if the request should be logged to the database
         """
-        if request.is_ajax():
-            return False
-        for path in PATHS_TO_IGNORE:
-            if request.path.endswith(path):
-                return False
-        return True
+        return not any((
+            request.is_ajax(), request.path.startswith(settings.STATIC_URL), request.path.startswith(settings.MEDIA_URL)
+        ))
 
     def process_request(self, request):
         """
