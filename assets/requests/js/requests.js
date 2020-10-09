@@ -10,15 +10,15 @@ function fetchData() {
         url: url,
         type: 'get',
         success: function (response) {
-            console.log(response);
             if (response['data'] === null) {
                 return
             }
             $('.latest_req').text(response['latest_request_id']);
             updatePage(response['requests'])
-            console.log(typeof response['new_requests_count'])
             if (new_requests_count + response['new_requests_count'] >= 10) {
                 document.title = `(${10}) Requests`
+            } else if (new_requests_count + response['new_requests_count'] === 0) {
+                document.title = 'Requests'
             } else {
                 new_requests_count += response['new_requests_count']
                 document.title = `(${new_requests_count}) Requests`

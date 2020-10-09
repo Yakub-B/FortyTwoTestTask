@@ -8,7 +8,7 @@ from apps.requests.models import RequestModel
 
 def last_ten_requests_not_ajax(request):
     try:
-        latest_request_id = RequestModel.objects.all().latest().id
+        latest_request_id = RequestModel.objects.latest().id
     except ObjectDoesNotExist:
         raise Http404
 
@@ -36,7 +36,7 @@ def serialize_requests(requests_queryset):
         except AttributeError:
             serialized_request['user'] = None
         data.append(serialized_request)
-
+    # reversing queryset because of the way how it`s rendering on frontend (first will be last and so on)
     data.reverse()
     return data
 
@@ -46,7 +46,7 @@ def last_ten_requests_ajax(request):
     if request.GET.get('id'):
         # looking for newer requests
         sort_by = request.GET.get('sort_by', '-url_priority__priority')
-        new_qs = RequestModel.objects.select_related('url_priority').all().order_by(
+        new_qs = RequestModel.objects.select_related('url_priority').order_by(
             sort_by, '-timestamp')[:10]
         new_requests_count = RequestModel.objects.filter(id__gt=request.GET['id']).count()
         # serializing queryset

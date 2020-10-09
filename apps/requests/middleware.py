@@ -14,7 +14,7 @@ class RequestLoggerMiddleware(MiddlewareMixin):
         This function checks if the request should be logged to the database
         """
         return not any((
-            request.is_ajax(), request.path.startswith(settings.STATIC_URL), request.path.startswith(settings.MEDIA_URL)
+            request.is_ajax(), request.path.startswith((settings.STATIC_URL, settings.MEDIA_URL, 'favicon.ico'))
         ))
 
     def process_request(self, request):
