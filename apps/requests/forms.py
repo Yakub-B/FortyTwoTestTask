@@ -9,4 +9,8 @@ class UrlPriorityForm(forms.ModelForm):
         fields = ('priority',)
 
     def clean_priority(self):
-        return self.cleaned_data.get('priority', 1)
+        # QueryDict.get('', 1) will return ''
+        priority = self.cleaned_data.get('priority')
+        if not priority:
+            return 1
+        return priority
