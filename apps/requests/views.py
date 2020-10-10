@@ -1,44 +1,34 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import Http404, JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponseBadRequest
+from django.shortcuts import redirect
 from django.views.generic.base import View
 
+from apps.requests.forms import UrlPriorityForm
 from apps.requests.models import RequestModel
+from apps.requests.services import last_ten_requests_not_ajax, last_ten_requests_ajax
 
 
 class LastTenRequestsView(View):
     """
-       This view will render page with last 10 requests
-       and process ajax requests to get newer requests from db
-       """
+    This view will render page with last 10 requests
+    and process ajax requests to get newer requests from db
+    """
 
     def get(self, request):
         """
         Main method that process get requests, both ajax and common
         """
         if not request.is_ajax():
-            try:
-                latest_request_id = RequestModel.objects.all().latest().id
-            except ObjectDoesNotExist:
-                raise Http404
-            qs = RequestModel.objects.all()[:10]
-            context = {'requests': qs, 'latest_request_id': latest_request_id}
-            return render(request, 'requests.html', context)
+            return last_ten_requests_not_ajax(request)
         else:
-            # in get parameter 'id' we get id of the last request displayed
-            # on page
-            if request.GET.get('id'):
-                # looking for newer requests
-                # (with id grater then id we got from ajax)
-                new_qs = RequestModel.objects.filter(id__gt=request.GET['id']).order_by('timestamp')[:10]
-                if new_qs.exists():
-                    # serializing queryset
-                    data = list(new_qs.values())
-                    latest_request_id = data[-1]['id']
-                    data = {
-                        'requests': data, 'latest_request_id': latest_request_id
-                    }
-                    return JsonResponse(data)
-                else:
-                    return JsonResponse({'data': None})
-            raise Http404
+            return last_ten_requests_ajax(request)
+
+
+class EditRequestPriorityView(View):
+    def post(self, request):
+        request_instance = RequestModel.objects.get(id=request.POST.get('id'))
+        form = UrlPriorityForm(request.POST, instance=request_instance.url_priority)
+        if form.is_valid():
+            form.save()
+            return redirect('requests:last_requests')
+        else:
+            return HttpResponseBadRequest()

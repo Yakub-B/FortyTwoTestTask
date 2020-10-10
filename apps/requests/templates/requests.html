@@ -2,6 +2,12 @@
 {% load static %}
 {% block extra_head %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
 {% endblock extra_head %}
 
 {% block title %} Requests {% endblock title %}
@@ -12,15 +18,41 @@
             <h1>Last 10 Requests</h1>
             <p hidden class="latest_req">{{ latest_request_id }}</p>
         </div>
+        <div>
+            <p>Sort by:</p>
+            <div class="dropdown" style="display: inline-block;">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Priority
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="?sort_by=-url_priority__priority">Ascending</a>
+                    <a class="dropdown-item" href="?sort_by=url_priority__priority">Descending</a>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-sm">
+                {% if not requests %}
+                    <p>There're no requests with such priority!</p>
+                {% endif %}
+
                 {% for req in requests %}
                     <div class="card text-white bg-dark mb-3" style="margin-top: 10px">
                         <div class="card-header">
                             Method: {{ req.method }}
+                            <form action="edit-priority/" method="post">
+                                {% csrf_token %}
+                                <label for="priority">Priority:</label>
+                                <input id="priority" type="number" name="priority" value="{{ req.url_priority.priority }}">
+                                <input type="hidden" name="id" value="{{ req.id }}">
+                                <input type="submit" value="change">
+                            </form>
+
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">URL: {{ req.url }}</h5>
+                            <h5 class="card-title">URL: {{ req.url_priority.path }}</h5>
                             <p class="card-text">
                                 Content type: {{ req.content_type }},
                                 User: {{ req.user }}, Encoding: {{ req.encoding }}
@@ -32,6 +64,5 @@
             </div>
         </div>
     </div>
-    <script src="{% static 'requests/js/strftime.js' %}"></script>
     <script src="{% static 'requests/js/requests.js' %}"></script>
 {% endblock content %}
